@@ -2,7 +2,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import About from './components/About';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Alert from './components/Alert';
 import {
   BrowserRouter as Router,
@@ -10,6 +10,8 @@ import {
   Route,
   Routes
 } from "react-router-dom";
+import ModalLoginForm from './ModalLoginForm';
+
 
  
 function App() {
@@ -38,11 +40,23 @@ function App() {
       showAlert("Light mode has been enabled", "success");
     }
   }
+
+  const [showModal, setShowModal] =useState(false);
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(openModal, 5000); // Show modal after 1 minute of inactivity
+
+    return () => clearTimeout(timeoutId);
+  }, []);
   return (
     <>
     <Router>
     <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} key={new Date()} />
     <Alert alert={alert}/>
+    <ModalLoginForm showModal={showModal} closeModal={closeModal} />
     <div className="container my-3">
     <Routes>
 
